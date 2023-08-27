@@ -2,8 +2,8 @@ PAGE 60,132
 TITLE LEER TECLA PULSADA
 ;******************************************************************************
 ; Nombre del programa   :   TECLA.ASM
-; Fecha de creaci¢n     :   NOVIEMBRE 4 de 2020
-; Autor                 :   ING. Hugo Mazzeo
+; Fecha de creaciÃ³n     :   AGOSTO 2023
+; Autor                 :   Franco IbaÃ±ez
 ; Objetivo              :   Lee tecla pulsada.
 ;                           Imprime en pantalla, fila 10 y columna 20
 ;                           " La tecla pulsada es "
@@ -14,10 +14,6 @@ TITLE LEER TECLA PULSADA
 ; COMANDO DE ENSAMBLE   : Masm TECLA.ASM;
 ; COMANDO DE ENLACE     : Link TECLA.OBJ;
 ; COMANDO DE EJECUCION  : TECLA.exe [Enter]
-;******************************************************************************
-; NOTA : Se procura usar SOLO las instrucciones que se han visto o explicado.
-;        El objetivo es educativo y NO de optimizaci¢n o eficiencia.
-;        
 ;******************************************************************************
 
 ;-------------------------------------------------------
@@ -64,12 +60,12 @@ PRINCIPAL PROC   FAR
        LEA DX,MENSAJ1   ;Rutina que imprime MENSAJ1
        INT 21H
 ; ====================================
-       MOV AH, 0        ; función que lee tecla pulsada, guardando su código ASCII en AH
-       INT 16h          ; ejecuta la interrupción del controlador de teclado 
-       MOV AH, 0Ah      ; invoca función para escribir carácter
-       MOV BH, 0        ; selecciona página de video 0
-       MOV CX, 1        ; cantidad de veces que imprime (1 vez) el carácter guardado en AL
-       INT 10h          ; ejecuta interrupción del controlador de video 
+       MOV AH, 0        ; funciï¿½n que lee tecla pulsada, guardando su cï¿½digo ASCII en AH
+       INT 16h          ; ejecuta la interrupciï¿½n del controlador de teclado 
+       MOV AH, 0Ah      ; invoca funciï¿½n para escribir carï¿½cter
+       MOV BH, 0        ; selecciona pï¿½gina de video 0
+       MOV CX, 1        ; cantidad de veces que imprime (1 vez) el carï¿½cter guardado en AL
+       INT 10h          ; ejecuta interrupciï¿½n del controlador de video 
               
 ; ====================================
 
