@@ -2,11 +2,11 @@ PAGE 60,132
 TITLE SUMA
 ;******************************************************************************
 ; Nombre del programa   :   SUMA.ASM (CON OTRA VARIANTE )
-; Fecha de creaci¢n     :   SEPTIEMBRE 16, 2022
-; Autor                 :   ING. Hugo Mazzeo
-; Objetivo              :   Lee un byte de la posici¢n 00FAh. A dicho valor 
+; Fecha de creaciÃ³n     :   AGOSTO 2023
+; Autor                 :   Franco IbaÃ±ez
+; Objetivo              :   Lee un byte de la posiciÃ³n 00FAh. A dicho valor 
 ;                           le calcula el factorial y lo almacena en la
-;                           direcci¢n 0AAAh.
+;                           direcciï¿½n 0AAAh.
 ;                           Imprime en pantalla, fila 10 y columna 20
 ;                           "LA SUMA ES "
 ;                           Imprime en pantalla, fila 23 y columna 17
@@ -16,10 +16,6 @@ TITLE SUMA
 ; COMANDO DE ENSAMBLE   : Masm PRODUCTO.ASM;
 ; COMANDO DE ENLACE     : Link PRODUCTO.OBJ;
 ; COMANDO DE EJECUCION  : PRODUCTO.exe [Enter]
-;******************************************************************************
-; NOTA : Se procura usar SOLO las instrucciones que se han visto o explicado.
-;        El objetivo es educativo y NO de optimizaci¢n o eficiencia.
-;        
 ;******************************************************************************
 
 ;-------------------------------------------------------
@@ -51,7 +47,7 @@ PRINCIPAL PROC   FAR
 
         MOV Ax,CS:[00FAh]       ; Leer valor de memoria
         MOV Bx,0005h            ; Cargo otro sumando en BX
-        ADD Bx,Ax               ; instrucción que calcula la suma
+        ADD Bx,Ax               ; instrucciï¿½n que calcula la suma
         
 ; ===================================
  SALTO: MOV DS:[0AAAh],BX   ; Almacena valor de la suma en memoria.
@@ -73,20 +69,20 @@ PRINCIPAL PROC   FAR
        INT 21H
 ; ====================================
        MOV AX,DS:[0AAAh]   ; Cargo el resultado obtenido en AX
-       AND AX,00F0h        ; Aplico máscara para obtener 1er. dígito hexa
+       AND AX,00F0h        ; Aplico mï¿½scara para obtener 1er. dï¿½gito hexa
        MOV BL,AL           ; Lo guardo en BL
        MOV CL,04H
        SHR BL,CL           ; Lo corro 4 bits a la derecha antes de convertir
-       OR BL,30H           ; Para convertir el 1er. dígito hexa en ASCII
+       OR BL,30H           ; Para convertir el 1er. dï¿½gito hexa en ASCII
        MOV AX,DS:[0AAAh]   ; Vuelvo a cargar el resultado
-       AND AX,000Fh        ; Aplico máscara para obtener 2do. dígito
+       AND AX,000Fh        ; Aplico mï¿½scara para obtener 2do. dï¿½gito
        MOV BH,AL
-       OR BH,30H           ; Convierte 2do. dígito en ASCII
+       OR BH,30H           ; Convierte 2do. dï¿½gito en ASCII
        MOV AH,2
        MOV DL,BL
-       INT 21H             ; Imprimo primer dígito
+       INT 21H             ; Imprimo primer dï¿½gito
        MOV DL,BH
-       INT 21H             ; Imprimo segundo dígito
+       INT 21H             ; Imprimo segundo dï¿½gito
 
 ; ====================================
 
