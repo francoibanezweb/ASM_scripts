@@ -1,11 +1,11 @@
 PAGE 60,132
 TITLE FACTORIAL
 ;******************************************************************************
-; Nombre del programa   :   CONTAR NÚMEROS POSITIVOS Y NEGATIVOS EN LA PÁGINA 2
-; Fecha de creaci¢n     :   NOVIEMBRE 2020
-; Autor                 :   ING. Hugo Mazzeo
-; Objetivo              :   Lee página 2 de memoria y detecta si un  
-;                           número es negativo. Los negativos los guarda
+; Nombre del programa   :   CONTAR NUMEROS POSITIVOS Y NEGATIVOS EN LA PAGINA 2
+; Fecha de creaciÃ³n     :   AGOSTO 2023
+; Autor                 :   Franco IbaÃ±ez
+; Objetivo              :   Lee pagina 2 de memoria y detecta si un  
+;                           numero es negativo. Los negativos los guarda
 ;                           en DX y los positivos en BX.
 ;                           Imprime en pantalla, fila 10 y columna 20
 ;                           " OPERACION BUSCAR CONCLUIDA "
@@ -16,10 +16,6 @@ TITLE FACTORIAL
 ; COMANDO DE ENSAMBLE   : Masm FACTOR.ASM;
 ; COMANDO DE ENLACE     : Link FACTOR.OBJ;
 ; COMANDO DE EJECUCION  : FACTOR.exe [Enter]
-;******************************************************************************
-; NOTA : Se procura usar SOLO las instrucciones que se han visto o explicado.
-;        El objetivo es educativo y NO de optimizaci¢n o eficiencia.
-;        
 ;******************************************************************************
 
 ;-------------------------------------------------------
@@ -54,9 +50,9 @@ ETIQ3: MOV AL,[SI]
        AND AL,80h     
        CMP AL,80h       
        JNE ETIQ1   
-       INC DX            ; guarda en DX los números negativos
+       INC DX            ; guarda en DX los nÃºmeros negativos
        JMP ETIQ2 
-ETIQ1: INC BX            ; guarda en BX los números positivos
+ETIQ1: INC BX            ; guarda en BX los nÃºmeros positivos
 ETIQ2: INC SI 
        LOOP ETIQ3 
 
