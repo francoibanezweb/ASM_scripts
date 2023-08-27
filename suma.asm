@@ -1,6 +1,6 @@
 PAGE 60,132
 TITLE SUMA
-;******************************************************************************
+;********************************************************************** 
 ; Nombre del programa   :   SUMA.ASM (CON OTRA VARIANTE )
 ; Fecha de creación     :   AGOSTO 2023
 ; Autor                 :   Franco Ibañez
@@ -12,13 +12,13 @@ TITLE SUMA
 ;                           Imprime en pantalla, fila 23 y columna 17
 ;                           'Presione cualquier tecla para SALIR '
 ;                           
-;******************************************************************************
+;********************************************************************** 
 ; COMANDO DE ENSAMBLE   : Masm PRODUCTO.ASM;
 ; COMANDO DE ENLACE     : Link PRODUCTO.OBJ;
 ; COMANDO DE EJECUCION  : PRODUCTO.exe [Enter]
-;******************************************************************************
+;********************************************************************** 
 
-;-------------------------------------------------------
+;-------------------------------------------------------                
 PILA  SEGMENT PARA STACK 'STACK'
            DB      64 DUP ('STACK   ')
 PILA  ENDS
@@ -47,7 +47,7 @@ PRINCIPAL PROC   FAR
 
         MOV Ax,CS:[00FAh]       ; Leer valor de memoria
         MOV Bx,0005h            ; Cargo otro sumando en BX
-        ADD Bx,Ax               ; instrucción que calcula la suma
+        ADD Bx,Ax               ; instrucción que calcula la suma      
         
 ; ===================================
  SALTO: MOV DS:[0AAAh],BX   ; Almacena valor de la suma en memoria.
