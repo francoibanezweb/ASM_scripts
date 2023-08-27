@@ -2,11 +2,11 @@ PAGE 60,132
 TITLE FACTORIAL
 ;******************************************************************************
 ; Nombre del programa   :   EJ_3.ASM (CON OTRA VARIANTE )
-; Fecha de creaci¢n     :   OCTUBRE 22 de 1998
-; Autor                 :   ING. Hugo Mazzeo
-; Objetivo              :   Lee un byte de la posici¢n 00FAh. A dicho valor 
+; Fecha de creaciÃ³n     :   AGOSTO 2023
+; Autor                 :   Franco IbaÃ±ez
+; Objetivo              :   Lee un byte de la posiciÃ³n 00FAh. A dicho valor 
 ;                           le calcula el factorial y lo almacena en la
-;                           direcci¢n 0AAAh.
+;                           direcciÃ³n 0AAAh.
 ;                           Imprime en pantalla, fila 10 y columna 20
 ;                           " OPERACION FACTORIAL CONCLUIDA "
 ;                           Imprime en pantalla, fila 23 y columna 17
@@ -16,10 +16,6 @@ TITLE FACTORIAL
 ; COMANDO DE ENSAMBLE   : Masm FACTOR.ASM;
 ; COMANDO DE ENLACE     : Link FACTOR.OBJ;
 ; COMANDO DE EJECUCION  : FACTOR.exe [Enter]
-;******************************************************************************
-; NOTA : Se procura usar SOLO las instrucciones que se han visto o explicado.
-;        El objetivo es educativo y NO de optimizaci¢n o eficiencia.
-;        
 ;******************************************************************************
 
 ;-------------------------------------------------------
@@ -58,7 +54,7 @@ VOLVER: DEC Bx
         JMP VOLVER
 
 ; ===================================
- SALTO: MOV DS:[0AAAh],AX  ; Almacena valordel factorial en Memoria.
+ SALTO: MOV DS:[0AAAh],AX  ; Almacena valor del factorial en Memoria.
         MOV AH,06H
         MOV AL,00H
         MOV CX,0000H    ; Rutina para limpiar la pantalla
@@ -77,20 +73,20 @@ VOLVER: DEC Bx
        INT 21H
 ; ====================================
        MOV AX,DS:[0AAAh] ; Cargo el resultado obtenido (78h) en AX
-       AND AX,00F0h     ; Aplico máscara para obtener 1er. dígito hexa
+       AND AX,00F0h     ; Aplico mÃ¡scara para obtener 1er. dÃ­gito hexa
        MOV BL,AL        ; Lo guardo en BL
        MOV CL,04H
        SHR BL,CL         ; Lo corro 4 bits a la derecha antes de convertir
-       OR BL,30H         ; Para convertir el 1er. dígito hexa en ASCII
+       OR BL,30H         ; Para convertir el 1er. dÃ­gito hexa en ASCII
        MOV AX,DS:[0AAAh]  ; Vuelvo a cargar el resultado
-       AND AX,000Fh       ; Aplico máscara para obtener 2do. dígito
+       AND AX,000Fh       ; Aplico mÃ¡scara para obtener 2do. dÃ­gito
        MOV BH,AL
-       OR BH,30H          ; Convierte 2do. dígito en ASCII
+       OR BH,30H          ; Convierte 2do. dÃ­gito en ASCII
        MOV AH,2
        MOV DL,BL
-       INT 21H            ; Imprimo primer dígito
+       INT 21H            ; Imprimo primer dÃ­gito
        MOV DL,BH
-       INT 21H            ; Imprimo segundo dígito
+       INT 21H            ; Imprimo segundo dÃ­gito
 
 ; ====================================
 
