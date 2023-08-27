@@ -6,7 +6,7 @@ TITLE SUMA
 ; Autor                 :   Franco Ibañez
 ; Objetivo              :   Lee un byte de la posición 00FAh. A dicho valor 
 ;                           le calcula el factorial y lo almacena en la
-;                           direcci�n 0AAAh.
+;                           dirección 0AAAh.
 ;                           Imprime en pantalla, fila 10 y columna 20
 ;                           "LA SUMA ES "
 ;                           Imprime en pantalla, fila 23 y columna 17
@@ -47,7 +47,7 @@ PRINCIPAL PROC   FAR
 
         MOV Ax,CS:[00FAh]       ; Leer valor de memoria
         MOV Bx,0005h            ; Cargo otro sumando en BX
-        ADD Bx,Ax               ; instrucci�n que calcula la suma
+        ADD Bx,Ax               ; instrucción que calcula la suma
         
 ; ===================================
  SALTO: MOV DS:[0AAAh],BX   ; Almacena valor de la suma en memoria.
@@ -69,20 +69,20 @@ PRINCIPAL PROC   FAR
        INT 21H
 ; ====================================
        MOV AX,DS:[0AAAh]   ; Cargo el resultado obtenido en AX
-       AND AX,00F0h        ; Aplico m�scara para obtener 1er. d�gito hexa
+       AND AX,00F0h        ; Aplico máscara para obtener 1er. dígito hexa
        MOV BL,AL           ; Lo guardo en BL
        MOV CL,04H
        SHR BL,CL           ; Lo corro 4 bits a la derecha antes de convertir
-       OR BL,30H           ; Para convertir el 1er. d�gito hexa en ASCII
+       OR BL,30H           ; Para convertir el 1er. dígito hexa en ASCII
        MOV AX,DS:[0AAAh]   ; Vuelvo a cargar el resultado
-       AND AX,000Fh        ; Aplico m�scara para obtener 2do. d�gito
+       AND AX,000Fh        ; Aplico máscara para obtener 2do. dígito
        MOV BH,AL
-       OR BH,30H           ; Convierte 2do. d�gito en ASCII
+       OR BH,30H           ; Convierte 2do. dígito en ASCII
        MOV AH,2
        MOV DL,BL
-       INT 21H             ; Imprimo primer d�gito
+       INT 21H             ; Imprimo primer dígito
        MOV DL,BH
-       INT 21H             ; Imprimo segundo d�gito
+       INT 21H             ; Imprimo segundo dígito
 
 ; ====================================
 

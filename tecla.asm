@@ -40,52 +40,68 @@ PRINCIPAL PROC   FAR
 
                            
 ; =================================
-
-
-; ===================================
+; Limpia la pantalla
+; =================================
         MOV AH,06H
         MOV AL,00H
         MOV CX,0000H    ; Rutina para limpiar la pantalla
         MOV DX,184FH
         MOV BH,7
         INT 10H
-; ====================================
+
+; ==================================
+; Posiciona el cursor
+;===================================
         MOV AH,02h
         MOV BH,00
         MOV DH,10      ; Rutina de posicionamiento del cursor (f=10,c=20)
         MOV DL,20
         INT 10h
-; ====================================
+
+; ==================================
+; Imprime mensaje 1
+; ==================================
        MOV AH,09H
        LEA DX,MENSAJ1   ;Rutina que imprime MENSAJ1
        INT 21H
-; ====================================
-       MOV AH, 0        ; funci�n que lee tecla pulsada, guardando su c�digo ASCII en AH
-       INT 16h          ; ejecuta la interrupci�n del controlador de teclado 
-       MOV AH, 0Ah      ; invoca funci�n para escribir car�cter
-       MOV BH, 0        ; selecciona p�gina de video 0
-       MOV CX, 1        ; cantidad de veces que imprime (1 vez) el car�cter guardado en AL
-       INT 10h          ; ejecuta interrupci�n del controlador de video 
-              
-; ====================================
 
+; ==================================
+; Lee tecla pulsada y la muestra
+; ==================================
+       MOV AH, 0        ; Lee tecla (código ASCII en AH)
+       INT 16h          ; Interrupción del teclado
+       MOV AH, 0Ah      ; Escribe carácter
+       MOV BH, 0        ; Página de video 0
+       MOV CX, 1        ; Imprime carácter en AL
+       INT 10h          ; Interrupción del video
+              
+; ==================================
+; Posciona el cursor para mensaje 2
+; ==================================
         MOV AH,02h
         MOV BH,00
         MOV DH,23      ; Rutina de posicionamiento del cursor (f=23,c=17)
         MOV DL,17
         INT 10h
-; ====================================
+
+; ==================================
+; Imprime mensaje 2
+; ==================================
        MOV AH,09H
        LEA DX,MENSAJ2   ;Rutina que imprime MENSAJ2
        INT 21H
 
-;     ----------------
+; ==================================
+; Espera tecla y sale al DOS
+; ==================================
         MOV AH,01H    ; Espera que se presione cualquier tecla
         INT 21H       
-;     ----------------
+
+
         MOV AX,4c00h     ; Salida al DOS.
         INT 21h
-;     ------------------
+
+        
 PRINCIPAL ENDP
 CSEG    ENDS
         END  principal
