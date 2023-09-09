@@ -1,14 +1,14 @@
 PAGE 60,132
 TITLE FACTORIAL
 ;******************************************************************************
-; Nombre del programa   :   CONTAR NUMEROS POSITIVOS Y NEGATIVOS EN LA PAGINA 2
-; Fecha de creaciÃ³n     :   AGOSTO 2023
-; Autor                 :   Franco IbaÃ±ez
-; Objetivo              :   Lee pagina 2 de memoria y detecta si un  
-;                           numero es negativo. Los negativos los guarda
-;                           en DX y los positivos en BX.
+; Nombre del programa   :   EJ_3.ASM (CON OTRA VARIANTE )
+; Fecha de creaci¢n     :   OCTUBRE 22 de 1998
+; Autor                 :   ING. Hugo Mazzeo
+; Objetivo              :   Lee un byte de la posici¢n 00FAh. A dicho valor 
+;                           le calcula el factorial y lo almacena en la
+;                           direcci¢n 0AAAh.
 ;                           Imprime en pantalla, fila 10 y columna 20
-;                           " OPERACION BUSCAR CONCLUIDA "
+;                           " OPERACION FACTORIAL CONCLUIDA "
 ;                           Imprime en pantalla, fila 23 y columna 17
 ;                           'Presione cualquier tecla para SALIR '
 ;                           
@@ -16,6 +16,10 @@ TITLE FACTORIAL
 ; COMANDO DE ENSAMBLE   : Masm FACTOR.ASM;
 ; COMANDO DE ENLACE     : Link FACTOR.OBJ;
 ; COMANDO DE EJECUCION  : FACTOR.exe [Enter]
+;******************************************************************************
+; NOTA : Se procura usar SOLO las instrucciones que se han visto o explicado.
+;        El objetivo es educativo y NO de optimizaci¢n o eficiencia.
+;        
 ;******************************************************************************
 
 ;-------------------------------------------------------
@@ -25,7 +29,7 @@ PILA  ENDS
 
 DATOS SEGMENT PARA PUBLIC 'DATA'
 
-      MENSAJ1  DB  'OPERACION BUSCAR CONCLUIDA ', '$'
+      MENSAJ1  DB  'EL FACTORIAL ES (EN HEXA): ', '$'
       MENSAJ2  DB  'Presione cualquier tecla para SALIR ', '$'
 
 DATOS ENDS
@@ -39,24 +43,22 @@ PRINCIPAL PROC   FAR
        ASSUME CS:CSEG,SS:PILA,DS:DATOS
        MOV AX,SEG DATOS
        MOV DS,AX
-                          
+
+       MOV Ax,0005h  ;      ;cargar un valor entre 1 y 8 decimal.
+       MOV CS:[00FAh],Ax  ;se supone que ya estaria cargado. 
+                           
 ; =================================
 
-       MOV SI,0200h   
-       MOV BX,0000h  
-       MOV DX,0000h  
-       MOV CX,0100h  
-ETIQ3: MOV AL,[SI]
-       AND AL,80h     
-       CMP AL,80h       
-       JNE ETIQ1   
-       INC DX            ; guarda en DX los nÃºmeros negativos
-       JMP ETIQ2 
-ETIQ1: INC BX            ; guarda en BX los nÃºmeros positivos
-ETIQ2: INC SI 
-       LOOP ETIQ3 
+        MOV Ax,CS:[00FAh]  ;Leer valor de memoria
+        MOV Bx,Ax
+VOLVER: DEC Bx
+        CMP Bx,00h       ; Rutina central que calcula el factorial
+        JE SALTO
+        MUL Bx
+        JMP VOLVER
 
 ; ===================================
+ SALTO: MOV DS:[0AAAh],AX  ; Almacena valordel factorial en Memoria.
         MOV AH,06H
         MOV AL,00H
         MOV CX,0000H    ; Rutina para limpiar la pantalla
@@ -74,6 +76,24 @@ ETIQ2: INC SI
        LEA DX,MENSAJ1   ;Rutina que imprime MENSAJ1
        INT 21H
 ; ====================================
+       MOV AX,DS:[0AAAh] ; Cargo el resultado obtenido (78h) en AX
+       AND AX,00F0h     ; Aplico m scara para obtener 1er. dígito hexa
+       MOV BL,AL        ; Lo guardo en BL
+       MOV CL,04H
+       SHR BL,CL         ; Lo corro 4 bits a la derecha antes de convertir
+       OR BL,30H         ; Para convertir el 1er. dígito hexa en ASCII
+       MOV AX,DS:[0AAAh]  ; Vuelvo a cargar el resultado
+       AND AX,000Fh       ; Aplico máscara para obtener 2do. dígito
+       MOV BH,AL
+       OR BH,30H          ; Convierte 2do. dígito en ASCII
+       MOV AH,2
+       MOV DL,BL
+       INT 21H            ; Imprimo primer dígito
+       MOV DL,BH
+       INT 21H            ; Imprimo segundo dígito
+
+; ====================================
+
         MOV AH,02h
         MOV BH,00
         MOV DH,23      ; Rutina de posicionamiento del cursor (f=23,c=17)

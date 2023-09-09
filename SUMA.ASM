@@ -1,21 +1,25 @@
 PAGE 60,132
-TITLE FACTORIAL
+TITLE SUMA
 ;******************************************************************************
-; Nombre del programa   :   EJ_3.ASM (CON OTRA VARIANTE )
-; Fecha de creaciÃ³n     :   AGOSTO 2023
-; Autor                 :   Franco IbaÃ±ez
-; Objetivo              :   Lee un byte de la posiciÃ³n 00FAh. A dicho valor 
+; Nombre del programa   :   SUMA.ASM (CON OTRA VARIANTE )
+; Fecha de creaci¢n     :   SEPTIEMBRE 16, 2022
+; Autor                 :   ING. Hugo Mazzeo
+; Objetivo              :   Lee un byte de la posici¢n 00FAh. A dicho valor 
 ;                           le calcula el factorial y lo almacena en la
-;                           direcciÃ³n 0AAAh.
+;                           direcci¢n 0AAAh.
 ;                           Imprime en pantalla, fila 10 y columna 20
-;                           " OPERACION FACTORIAL CONCLUIDA "
+;                           "LA SUMA ES "
 ;                           Imprime en pantalla, fila 23 y columna 17
 ;                           'Presione cualquier tecla para SALIR '
 ;                           
 ;******************************************************************************
-; COMANDO DE ENSAMBLE   : Masm FACTOR.ASM;
-; COMANDO DE ENLACE     : Link FACTOR.OBJ;
-; COMANDO DE EJECUCION  : FACTOR.exe [Enter]
+; COMANDO DE ENSAMBLE   : Masm PRODUCTO.ASM;
+; COMANDO DE ENLACE     : Link PRODUCTO.OBJ;
+; COMANDO DE EJECUCION  : PRODUCTO.exe [Enter]
+;******************************************************************************
+; NOTA : Se procura usar SOLO las instrucciones que se han visto o explicado.
+;        El objetivo es educativo y NO de optimizaci¢n o eficiencia.
+;        
 ;******************************************************************************
 
 ;-------------------------------------------------------
@@ -25,7 +29,7 @@ PILA  ENDS
 
 DATOS SEGMENT PARA PUBLIC 'DATA'
 
-      MENSAJ1  DB  'EL FACTORIAL ES (EN HEXA): ', '$'
+      MENSAJ1  DB  'LA SUMA ES (EN HEXA): ', '$'
       MENSAJ2  DB  'Presione cualquier tecla para SALIR ', '$'
 
 DATOS ENDS
@@ -40,24 +44,20 @@ PRINCIPAL PROC   FAR
        MOV AX,SEG DATOS
        MOV DS,AX
 
-       MOV Ax,0005h  ;      ;cargar un valor entre 1 y 8 decimal.
+       MOV Ax,0004h  ;      ;cargar un valor entre 1 y 8 decimal.
        MOV CS:[00FAh],Ax  ;se supone que ya estaria cargado. 
                            
 ; =================================
 
-        MOV Ax,CS:[00FAh]  ;Leer valor de memoria
-        MOV Bx,Ax
-VOLVER: DEC Bx
-        CMP Bx,00h       ; Rutina central que calcula el factorial
-        JE SALTO
-        MUL Bx
-        JMP VOLVER
-
+        MOV Ax,CS:[00FAh]       ; Leer valor de memoria
+        MOV Bx,0005h            ; Cargo otro sumando en BX
+        ADD Bx,Ax               ; instrucci¢n que calcula la suma
+        
 ; ===================================
- SALTO: MOV DS:[0AAAh],AX  ; Almacena valor del factorial en Memoria.
+ SALTO: MOV DS:[0AAAh],BX   ; Almacena valor de la suma en memoria.
         MOV AH,06H
         MOV AL,00H
-        MOV CX,0000H    ; Rutina para limpiar la pantalla
+        MOV CX,0000H        ; Rutina para limpiar la pantalla
         MOV DX,184FH
         MOV BH,7
         INT 10H
@@ -69,24 +69,24 @@ VOLVER: DEC Bx
         INT 10h
 ; ====================================
        MOV AH,09H
-       LEA DX,MENSAJ1   ;Rutina que imprime MENSAJ1
+       LEA DX,MENSAJ1      ;Rutina que imprime MENSAJ1
        INT 21H
 ; ====================================
-       MOV AX,DS:[0AAAh] ; Cargo el resultado obtenido (78h) en AX
-       AND AX,00F0h     ; Aplico mÃ¡scara para obtener 1er. dÃ­gito hexa
-       MOV BL,AL        ; Lo guardo en BL
+       MOV AX,DS:[0AAAh]   ; Cargo el resultado obtenido en AX
+       AND AX,00F0h        ; Aplico máscara para obtener 1er. dígito hexa
+       MOV BL,AL           ; Lo guardo en BL
        MOV CL,04H
-       SHR BL,CL         ; Lo corro 4 bits a la derecha antes de convertir
-       OR BL,30H         ; Para convertir el 1er. dÃ­gito hexa en ASCII
-       MOV AX,DS:[0AAAh]  ; Vuelvo a cargar el resultado
-       AND AX,000Fh       ; Aplico mÃ¡scara para obtener 2do. dÃ­gito
+       SHR BL,CL           ; Lo corro 4 bits a la derecha antes de convertir
+       OR BL,30H           ; Para convertir el 1er. dígito hexa en ASCII
+       MOV AX,DS:[0AAAh]   ; Vuelvo a cargar el resultado
+       AND AX,000Fh        ; Aplico máscara para obtener 2do. dígito
        MOV BH,AL
-       OR BH,30H          ; Convierte 2do. dÃ­gito en ASCII
+       OR BH,30H           ; Convierte 2do. dígito en ASCII
        MOV AH,2
        MOV DL,BL
-       INT 21H            ; Imprimo primer dÃ­gito
+       INT 21H             ; Imprimo primer dígito
        MOV DL,BH
-       INT 21H            ; Imprimo segundo dÃ­gito
+       INT 21H             ; Imprimo segundo d¡gito
 
 ; ====================================
 
