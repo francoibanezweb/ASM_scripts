@@ -13,5 +13,4 @@ msg db 'Hola Mundo!','$'
      int 21h 
 
 end start
-;Esta modifaci¢n no estaba antes
-;Esta tampoco estaba antes
+;Esta linea se escribio desde la VM FREEDOS.
